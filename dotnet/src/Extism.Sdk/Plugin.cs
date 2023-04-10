@@ -11,12 +11,14 @@ public class Plugin : IDisposable
     private const int DisposedMarker = 1;
 
     private readonly Context _context;
-    private int _disposed;
+    private int _disposed;     
+    private readonly IntPtr _cancelHandle;
 
-    internal Plugin(Context context, IntPtr handle)
+    internal Plugin(Context context, IntPtr handle, IntPtr cancelHandle)
     {
         _context = context;
-        NativeHandle = handle;
+        NativeHandle = handle;         
+        _cancelHandle = cancelHandle;
     }
 
     /// <summary>
@@ -90,6 +92,15 @@ public class Plugin : IDisposable
                 }
             }
         }
+    }
+    
+    /// <summary>
+    /// Request to cancel a currently-executing plugin at the next epoch.
+    /// </summary>
+    unsafe public void Cancel() 
+    {
+        CheckNotDisposed();
+        LibExtism.extism_plugin_cancel(_cancelHandle);
     }
 
     /// <summary>

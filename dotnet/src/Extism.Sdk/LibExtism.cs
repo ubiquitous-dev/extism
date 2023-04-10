@@ -59,6 +59,21 @@ internal static class LibExtism
     public static extern void extism_plugin_free(IntPtr context, IntPtr plugin);
 
     /// <summary>
+    /// Request cancellation on a currently-executing plugin.  Will cancel before executing the next epoch.
+    /// </summary>
+    /// <param name="context">Pointer to the context the plugin is associated with.</param>
+    /// <param name="handle">Index of the plugin you want to cancel.</param>
+    [DllImport("extism")]
+    unsafe internal static extern IntPtr extism_plugin_cancel_handle(IntPtr context, IntPtr handle);
+
+    /// <summary>
+    /// Request cancellation on a currently-executing plugin.  Will cancel before executing the next epoch.
+    /// </summary>
+    /// <param name="handle">Pointer to the plugin's cancel handle.</param>
+    [DllImport("extism")]
+    unsafe internal static extern void extism_plugin_cancel(IntPtr handle);
+    
+    /// <summary>
     /// Remove all plugins from the registry.
     /// </summary>
     /// <param name="context"></param>
